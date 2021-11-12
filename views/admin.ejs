@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <title>DevPage Admin</title>
+</head>
+<body>
+    <nav class="navbar is-active is-link is-spaced">
+        <div class="navbar-brand">
+            <a href="/admin" class="navbar-item">
+                <h1 class="title" style="color: white;">DevPage | Admin</h1>
+            </a>
+        </div>
+        <div class="navbar-start">
+            <a href="/" class="navbar-item">Home</a>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="card">
+            <div class="card-header-title">Send System Notification</div>
+            <div class="card-content">
+                <form action="/notify" method="GET">
+                    <input type="hidden" value="system" name="type">
+                    <div class="field">
+                        <label class="label">Title</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Title" name="title">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Message</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Message" name="message"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input type="email" class="input" placeholder="Email" name="email">
+                        </div>
+                        <br>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-link" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-header-title">Users (<%= users.length %>)</h1>
+            </div>
+            <div class="card-content">
+
+                <% users.forEach(function(user) { %>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <% if (user.avatar) { %>
+                                        <figure class="image is-48x48">
+                                            <img src="<%= user.avatar %>" alt="<%= user.username %>">
+                                        </figure>
+                                    <% } else { %>
+                                        <figure class="image is-48x48">
+                                            <img src="https://static.thenounproject.com/png/2734299-200.png" alt="<%= user.username %>">
+                                        </figure>
+                                    <% } %>
+                                </div>
+                                <div class="media-content">
+                                    <% if (user.verified) { %>
+                                        <p class="title is-4"><%= user.username %>&nbsp;<i class="fas fa-check-circle"></i></p>
+                                    <% } else { %>
+                                        <p class="title is-4"><%= user.username %></p>
+                                    <% } %>
+                                    <label class="label">Email</label>
+                                    <p class="subtitle is-6"><%= user.email %></p>
+                                    <label class="label">ID</label>
+                                    <p class="subtitle is-6"><%= user._id %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <% }); %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <title>DevPage | Account Settings</title>
+</head>
+<body>
+    <nav class="navbar is-active is-link is-spaced">
+        <a href="/me" class="navbar-item">
+            <button class="button is-light is-primary is-medium">Back To Profile</button>
+        </a>
+    </nav>
+    <br>
+    <div class="container">
+        <form action="/update" method="GET">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <h1 class="title is-3">Sign-in Information</h1>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="username" value="<%= user.username %>" placeholder="Username">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="email" name="email" value="<%= user.email %>" placeholder="Email">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" id="pass" name="password" value="<%= user.password %>" placeholder="Password">
+                            <span class="icon is-medium is-left">
+                                <i class="fas fa-user-lock"></i>
+                              </span>
+                        </div>
+                        <div class="control">
+                            <a class="button" type="button" id="togglepass" onclick="let input = document.getElementById('pass'); if (input.type === 'password') {input.type = 'text'; document.getElementById('togglepass').innerHTML = `<i class='far fa-eye-slash'></i>`} else {input.type = 'password'; document.getElementById('togglepass').innerHTML = `<i class='far fa-eye'></i>`}"><i class='far fa-eye'></i></a>
+                        </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <h1 class="title is-3">Account Settings</h1>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="bio" id="bio" value="<%= user.bio %>" max="200" onchange="document.getElementById('biolen').innerHTML = `${document.getElementById('bio').value.length}/200`" placeholder="Biography (Bio)">
+                            <script>
+                                let bio = document.getElementById('bio');
+                                bio.addEventListener('keyup', function() {
+                                    document.getElementById('biolen').innerHTML = `${bio.value.length}/200`;
+                                });
+                            </script>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-pencil-alt"></i>
+                            </span>
+                            <% if (user.bio) { %>
+                                <span class="tag is-success is-light" id="biolen"><%= user.bio.length %>/200</span>
+                            <% } else { %>
+                                <span class="tag is-success is-light" id="biolen">0/200</span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" type="text" name="about" id="aboutme" max="1000" placeholder="Tell others about yourself!"><%= user.about %></textarea>
+                            <script>
+                                let about = document.getElementById('aboutme');
+                                about.addEventListener('keyup', function() {
+                                    document.getElementById('aboutlen').innerHTML = `${about.value.length}/1000`;
+                                });
+                            </script>
+                            <% if (user.about) { %>
+                                <span class="tag is-success is-light" id="aboutlen"><%= user.about.length %>/1000</span>
+                            <% } else { %>
+                                <span class="tag is-success is-light" id="aboutlen">0/1000</span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="url" name="avatar" value="<%= user.avatar %>" placeholder="Avatar URL">
+                            <span class="icon is-medium is-left">
+                                <i class="fas fa-user-circle"></i>
+                              </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="url" name="banner" value="<%= user.avatar %>" placeholder="Banner URL">
+                            <span class="icon is-medium is-left">
+                                <i class="far fa-image"></i>
+                              </span>
+                        </div>
+                    </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title">
+                        <h1 class="title is-3">Other Socials</h1>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="github" value="<%= user.socials.github %>" placeholder="GitHub Profile URL">
+                            <span class="icon is-small is-left">
+                                <i class="fab fa-github"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="linkedin" value="<%= user.socials.linkedin %>" placeholder="LinkedIn Profile URL">
+                            <span class="icon is-small is-left">
+                                <i class="fab fa-linkedin"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="url" name="twitter" value="<%= user.socials.twitter %>" placeholder="Twitter Profile URL">
+                            <span class="icon is-medium is-left">
+                                <i class="fab fa-twitter"></i>
+                              </span>
+                        </div>
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="instagram" value="<%= user.socials.instagram %>" placeholder="Instagram Profile URL">
+                            <span class="icon is-small is-left">
+                                <i class="fab fa-instagram"></i>
+                            </span>
+                        </div>
+                    </div>
+            </div>
+            <br>
+          </form>
+        <div class="buttons">
+            <button class="button is-primary" type="submit">Save</button>
+            <button class="button is-danger" type="button" onclick="window.location.href='/me'">Cancel</button>
+        </div>
+    </div>
+</body>
+</html>

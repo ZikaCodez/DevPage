@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <meta property="og:url" content="https://devpage.tech/u/<%= user.username %>">
+    <meta property="og:title" content="<%= user.username %> on DevPage">
+    <meta property="og:site_name" content="devpage.tech">
+    <% if (user.bio) { %>
+        <meta property="og:description" content="<%= user.bio %>">
+        <% } else { %>
+            <meta property="og:description" content="This user has not set a biography yet!">
+        <% } %>
+    <meta property="og:type" content="website">
+    <% if (user.avatar) { %>
+    <meta property="og:image" content="<%= user.avatar %>">
+    <% } else { %>
+        <meta property="og:image" content="https://static.thenounproject.com/png/2734299-200.png">
+    <% } %>
+    <meta name="theme-color" content="#2f3136">
+    <title><%= user.username %></title>
+</head>
+<body>
+    <nav class="navbar is-active is-link is-spaced">
+        <a href="/" class="navbar-item">
+            <button class="button is-light is-primary is-medium"><i class="fas fa-home"></i></button>
+        </a>
+        <div class="navbar-end">
+            <a href="/logout" class="navbar-item">
+                <button class="button is-light is-primary is-medium"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</button>
+            </a>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <% if (user.banner) { %>
+                    <img src="<%= user.banner %>" height="100" alt="<%= user.username %>'s banner">
+                <% } else { %>
+                    <img src="https://leadcoat.com/wp-content/uploads/2019/02/Default-Banner.png" alt="<%= user.username %>'s banner">
+                <% } %>
+              </figure>
+            </div>
+            <br>
+            <figure class="image is-128x128" style="display: block; margin-left: auto; margin-right: auto; border: solid 5px rgb(236, 229, 229); border-radius: 50%;">
+                <% if (user.avatar) { %>
+                    <img src="<%= user.avatar %>" alt="<%= user.username %>'s avatar" class="is-rounded">
+                <% } else { %>
+                    <img src="https://static.thenounproject.com/png/2734299-200.png" class="is-rounded" alt="Placeholder image">
+                <% } %>
+            </figure>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content has-text-centered">
+                  <p class="title is-4"><%= user.username %>
+                    <% if (user.verified) { %>
+                        <i class="fas fa-check-circle" style="color: rgb(50, 192, 192);"></i>
+                    <% } %>
+                    <% if (user._id === 3917634) { %>
+                        <br>
+                        <br>
+                        <span class="tag is-warning is-light is-large"><i class="fas fa-code"></i>&nbsp;DevPage Developer</span>
+                    <% } %>
+                </p>
+                  <% if (user.bio) { %>
+                    <p class="title is-6"><%= user.bio %></p>
+                    <% } else { %>
+                    <p class="title is-6">This user has not set a bio yet!</p>
+                    <% } %>
+                    <div class="card">
+                        <footer class="card-footer">
+                          <% if (user.socials.github) { %>
+                            <a href="<%= user.socials.github %>" target="_blank" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="fab fa-github"></i>
+                                </span>
+                            </a>
+                            <% } %>
+                            <% if (user.socials.twitter) { %>
+                            <a href="<%= user.socials.twitter %>" target="_blank" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="fab fa-twitter"></i>
+                                </span>
+                            </a>
+                            <% } %>
+                            <% if (user.socials.instagram) { %>
+                            <a href="<%= user.socials.instagram %>" target="_blank" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="fab fa-instagram"></i>
+                                </span>
+                            </a>
+                            <% } %>
+                            <% if (user.socials.linkedin) { %>
+                            <a href="<%= user.socials.linkedin %>" target="_blank" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="fab fa-linkedin"></i>
+                                </span>
+                            </a>
+                            <% } %>
+                        </footer>
+                      </div>
+                </div>
+              </div>
+          
+              <div class="content has-text-centered">
+                <% if (user.about) { %>
+                    <h1 class="title is-2">About Me</h1>
+                    <br>
+                    <p class="subtitle is-5"><%= user.about %></p>
+                    <% } else { %>
+                    <p class="subtitle is-5">This user has not set an about yet!</p>
+                    <% } %>
+              </div>
+              <br>
+            </div>
+          </div>
+          <br>
+          <br>
+          <% if (user.posts.length > 0) { %>
+            <div class="card" id="posts" href="#">
+                <div class="card-content">
+                <div class="content">
+                    <h1 class="title is-2">Posts</h1>
+                    <br>
+                    <% user.posts.forEach(function(post) { %>
+                        <div class="modal" id="<%= post._id %>-comments">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <% if(post.comments.lenght > 0) { %> 
+                                    <% post.comments.forEach(function(comment) { %>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-48x48">
+                                                <% if (comment.avatar) { %>
+                                                    <img src="<%= comment.avatar %>" alt="<%= comment.username %>'s avatar" class="is-rounded">
+                                                <% } else { %>
+                                                    <img src="https://static.thenounproject.com/png/2734299-200.png" class="is-rounded" alt="Placeholder image">
+                                                <% } %>
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p class="title is-4"><%= comment.username %></p>
+                                                <p class="subtitle is-6"><%= comment.comment %></p>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                        <% }  else {%>
+                                        <div class="has-text-centered">
+                                            <p class="title has-text-white is-4">No comments yet. Be the first to comment!</p>
+                                        </div>
+                                        <% } %>
+                                    <br><br><br>
+                                    <div class="modal-card-foot">
+                                        <form action="/comment" method="GET">
+                                            <input type="hidden" name="postId" value="<%= post._id %>">
+                                            <input type="hidden" name="userId" value="<%= user._id %>">
+                                            <div class="field">
+                                                <p class="control">
+                                                    <input class="input" name="comment" placeholder="Write a comment..."></input>
+                                                </p>
+                                            </div>
+                                            <div class="field">
+                                                <p class="control">
+                                                    <button class="button is-primary">Submit</button>
+                                                </p>
+                                            </div>
+                                        </form>
+                                    </div>
+                            </div>
+                            <button class="has-text-white has-background-black-bis modal-close is-large" aria-label="close" onclick="document.getElementById('<%= post._id %>-comments').className = 'modal'"></button>
+                          </div>
+
+                    <div class="card" id="<%= post._id %>">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-64x64">
+                                        <% if (user.avatar) { %>
+                                            <img src="<%= user.avatar %>" alt="<%= user.username %>'s avatar" class="is-rounded">
+                                        <% } else { %>
+                                            <img src="https://static.thenounproject.com/png/2734299-200.png" alt="User Avatar" class="is-rounded">
+                                        <% } %>
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-3"><%= user.username %> <span class="subtitle is-small"><%= new Date(post.date).getDay() %>/<%= new Date(post.date).getMonth() %>/<%= new Date(post.date).getFullYear() %>&nbsp;-&nbsp;<%= new Date(post.date).getHours() % 12 %>:<%= new Date(post.date).getMinutes() < 10 ? '0'+new Date(post.date).getMinutes(): new Date(post.date).getMinutes() %>&nbsp;<%= new Date(post.date).getHours() >= 12 ? "PM" : "AM" %></span></p>
+                                    <p class="subtitle is-4"><%= post.content %></p>
+                                </div>
+                            </div>
+                            <% if (post.image) { %>
+                            <div class="card-image">
+                                <figure>
+                                    <img src="<%= post.image %>" height="300" width="300" alt="<%= post.title %>">
+                                </figure>
+                                <% } %>
+                        </div>
+                        <div class="card-footer">
+                            <a class="card-footer-item" href="/#<%= post._id %>">Interact with post on Home page.</a>
+                        </div>
+                    </div>
+                    <br>
+                    <% }) %>
+                </div>
+                </div>
+            <% } %>
+    </div>
+</body>
+</html>

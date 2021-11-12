@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>DevPage | Search users</title>
+</head>
+<body>
+    <nav class="navbar is-active is-link is-spaced">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="index.php">
+                <h1 class="title is-1">DevPage</h1>
+            </a>
+        <a href="/" class="navbar-item">
+            <button class="button is-primary is-light">Home</button>
+        </a>
+        </div>
+    </nav>
+    <br><br>
+    <div class="container">
+        <% if (user) { %>
+            <div class="card" id="users" href="#">
+                <div class="card-content">
+                <div class="content">
+                    <h1 class="title is-2">Results for "<%= query %>"</h1>
+                    <br>
+                    <div class="card" id="<%= user._id %>">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-64x64">
+                                        <% if (user.avatar) { %>
+                                            <img src="<%= user.avatar %>" alt="<%= user.username %>'s avatar" class="is-rounded">
+                                        <% } else { %>
+                                            <img src="https://static.thenounproject.com/png/2734299-200.png" alt="User Avatar" class="is-rounded">
+                                        <% } %>
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-3"><%= user.username %></p>
+                                    <% if (user.bio) { %>
+                                        <p class="subtitle is-5"><%= user.bio %></p>
+                                    <% } else {%>
+                                        <p class="subtitle is-5">This user has not set a biography!</p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-footer-item">
+                                <a href="/u/<%= user.username %>">
+                                    View Profile
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                </div>
+            <% } else { %>
+                <div class="card" id="users" href="#">
+                    <div class="card-content">
+                    <div class="content">
+                        <h1 class="title is-2">No users found for "<%= query %>"</h1>
+                        <p class="subtitle">Feelin' lost?</p>
+                        <li><a href="/">Home</a></li>
+                    </div>
+                    </div>
+                </div>
+            <% } %>
+    </div>
+</body>
+</html>

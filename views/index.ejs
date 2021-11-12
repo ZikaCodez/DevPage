@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <meta property="og:url" content="https://devpage.tech">
+    <meta property="og:title" content="DevPage">
+    <meta property="og:site_name" content="DevPage">
+    <meta property="og:description" content="DevPage is your place to express yourself, showcase your projects, and get others to know you.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://cdn.discordapp.com/attachments/897135313191850037/908626656388870204/DevPageFinal.png">
+    <meta name="theme-color" content="#2f3136">
+    <title>Devpage | Express yourself!</title>
+</head>
+<body>
+    <% if (loggedIn === false) { %>
+        <nav class="navbar is-active is-link is-spaced">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <h1 class="title" style="color: white;">DevPage</h1>
+                </a>
+            </div>
+            <div class="navbar-start">
+                <a href="/" class="navbar-item has-text-white">Home</a>
+                <a href="/tos" class="navbar-item has-text-white">Terms of Service</a>
+            </div>
+            <div class="navbar-end">
+                <form action="/search">
+                    <div class="field column is-half has-addons has-addons-fullwidth">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="query" placeholder="Search for a user...">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                &nbsp;
+                <a href="/login" class="button is-primary navbar-item">Login</a>
+                &nbsp;
+                <a href="/create" class="button is-primary navbar-item">Register</a>
+            </div>
+        </nav>
+        <br>
+        <div class="container has-text-centered">
+            <h1 class="title is-underlined">DevPage</h1>
+            <p class="subtitle is-size-4">Your place to <span><span id="whereyoucan" style="color: rgb(78, 78, 129); font-weight: bold;"></span></span></p>
+            <br>
+            <h1 class="title">Join Now!</h1>
+            <p class="subtitle">
+                Join DevPage by <a href="/create">creating an account</a>!
+            </p>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    
+        <script>
+                var typed = new Typed("#whereyoucan", {
+                    strings: ["Express yourself", "Showcase your projects", "Let others know more about you"],
+                    typeSpeed: 20,
+                    loop: true,
+                    backDelay: 1000,
+                    backSpeed: 30,
+                });
+        </script>
+    <% } else { %>
+        <div class="modal" id="notificationsModal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <% if (user.notifications.length === 0) { %>
+                    <div class="notification is-primary">
+                        <p class="has-text-centered">You have no notifications!</p>
+                    </div>
+                <% } else { %>
+                    <% user.notifications.forEach(notification => { %>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <% if (notification.author.avatar) { %>
+                                                <img src="<%= notification.author.avatar %>" alt="<%= notification.author.username %>'s avatar" class="is-rounded">
+                                            <% } else { %>
+                                                <img src="https://static.thenounproject.com/png/2734299-200.png" alt="User Avatar" class="is-rounded">
+                                            <% } %>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="title"><%= notification.author.username %> <span class="subtitle is-small"><%= new Date(notification.date).getDay() %>/<%= new Date(notification.date).getMonth() %>/<%= new Date(notification.date).getFullYear() %>&nbsp;-&nbsp;<%= new Date(notification.date).getHours() % 12 %>:<%= new Date(notification.date).getMinutes() < 10 ? '0'+new Date(notification.date).getMinutes(): new Date(notification.date).getMinutes() %>&nbsp;<%= new Date(notification.date).getHours() >= 12 ? "PM" : "AM" %></span></p>
+                                        <p class="title is-3"><%= notification.title %></p>
+                                        <p class="subtitle is-4" id="notifMessage"></p>
+                                        <script>
+                                            document.getElementById("notifMessage").innerHTML = `<%= notification.message %>`.replace(/\n/g, "<br>");
+                                        </script>
+
+                                    </div>
+                                </div>
+                            <div class="card-footer">
+                                <a href="#" class="card-footer-item">
+                                    <form action="/unnotify" method="GET">
+                                        <input type="hidden" name="notification" value="<%= JSON.stringify(notification) %>">
+                                        <button type="submit" class="button is-danger">
+                                            <span class="icon-text">
+                                                <span class="icon">
+                                                    <i class="fas fa-trash"></i>
+                                                </span>
+                                                <span>Remove</span>
+                                            </span>
+                                        </button>
+                                    </form>
+                                </a>
+                            </div>
+                            </div>
+                        </div>
+                            <br>
+                            <% }) %>
+                            <% } %>
+                        <button class="modal-close is-large" aria-label="close" onclick="document.getElementById('notificationsModal').className = 'modal'"></button>
+                    </div>
+            </div>
+        <nav class="navbar is-active is-link is-spaced">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <h1 class="title" style="color: white;">DevPage</h1>
+                </a>
+            </div>
+            <div class="navbar-start">
+                <a href="/" class="navbar-item has-text-white">Home</a>
+                <a href="/tos" class="navbar-item has-text-white">Terms of Service</a>
+                <% if (user._id === 3917634) { %>
+                    <a href="/admin" class="navbar-item has-text-white">Admin</a>
+                <% } %>
+            </div>
+            <div class="navbar-end">
+                <button class="button is-warning is-light is-centered" onclick="document.getElementById('postModal').classList.add('is-active')">Post</button>
+                &nbsp;&nbsp;&nbsp;
+                <% if (user.notifications.length > 0) { %>
+                    <a href="#" onclick="document.getElementById('notificationsModal').classList.add('is-active')" class="navbar-item has-text-white">
+                        <span class="icon">
+                            <i class="fas fa-bell"></i>
+                        </span>
+                        <span class="tag is-danger is-light">
+                            <%= user.notifications.length %>
+                        </span>
+                    </a>
+                <% } else { %>
+                    <a href="#" onclick="document.getElementById('notificationsModal').classList.add('is-active')" class="navbar-item has-text-white">
+                        <span class="icon">
+                            <i class="fas fa-bell"></i>
+                        </span>
+                    </a>
+                <% } %>
+                &nbsp;
+                <form action="/search">
+                    <div class="field column is-half has-addons has-addons-fullwidth">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="query" placeholder="Search for a user...">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                &nbsp;
+                <a href="/me" class="button is-primary navbar-item"><span class="icon-text"><span class="icon"><img style="border-radius: 50%;" src="<%= user.avatar || 'https://static.thenounproject.com/png/2734299-200.png' %>"></span><span>Your Profile</span></span></a>
+                &nbsp;
+                <a href="/logout" class="button is-primary navbar-item"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
+            </div>
+        </nav>
+        <br>
+        <div class="container">
+            <h1 class="title has-text-centered">Welcome, <%= user.username %>!</h1>
+            <% if (user.notifications.length > 0) { %>
+                <p class="subtitle">
+                    You have <%= user.notifications.length %> notification(s)!
+                </p>
+                <br>
+            <% } %>
+            <div class="modal" id="postModal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <form action="/publish">
+                        
+                          <div class="has-text-white field">
+                            <label class="has-text-white label" style="color: white;">Content</label>
+                            <div class="has-text-white has-background-black-bis control">
+                              <textarea class="has-text-black textarea" name="content" placeholder="What's cookin', <%=  user.username %>?" required></textarea>
+                            </div>
+                          </div>
+        
+                          <div class="has-text-white field">
+                            <label class="has-text-white label" style="color: white;">Image URL (optional)</label>
+                            <div class="has-text-white has-background-black-bis control">
+                              <input class="has-text-black input" name="imageURL" placeholder="URL here"></input>
+                            </div>
+                          </div>
+                        
+                          <div class="has-text-white field is-grouped">
+                            <div class="has-text-white has-background-black-bis control">
+                              <button class="button is-link" type="submit">Post</button>
+                            </div>
+                            <div class="has-text-white has-background-black-bis control">
+                              <button class="button is-link is-light" type="button" onclick="document.getElementById('postModal').className = 'modal'">Cancel</button>
+                            </div>
+                          </div>
+                    </form>
+                </div>
+                <button class="has-text-white has-background-black-bis modal-close is-large" aria-label="close" onclick="document.getElementById('postModal').className = 'modal'"></button>
+              </div>
+        </div>
+        <% } %>
+        <br><br>
+        <div class="container">
+            <% posts.forEach(function(post) { %>
+                <div class="modal" id="<%= post._id %>-comments">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <% if (post.comments.length > 0) { %>
+                            <% post.comments.forEach(function(comment) { %>
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <figure class="image is-48x48">
+                                                        <% if (comment.author.avatar) { %>
+                                                            <img src="<%= comment.author.avatar %>" alt="<%= comment.author.username %>'s avatar" class="is-rounded">
+                                                        <% } else { %>
+                                                            <img src="https://static.thenounproject.com/png/2734299-200.png" class="is-rounded" alt="Placeholder image">
+                                                        <% } %>
+                                                    </figure>
+                                                </div>
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <p class="title is-4"><%= comment.author.username %></p>
+                                                        <p class="subtitle is-6"><%= comment.content %></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                <% }) %>
+                                <% } else { %>
+                                    <div class="has-text-centered">
+                                        <p class="title is-4" style="color: white;">No comments yet. Be the first to comment!</p>
+                                    </div>
+                                <% } %>
+                            <br><br><br>
+                            <footer>
+                                <div class="modal-card-foot">
+                                    <% if (loggedIn) { %>
+                                        <form action="/comment" method="GET">
+                                            <input type="hidden" name="postID" value="<%= post._id %>">
+                                            <div class="field">
+                                                <p class="control">
+                                                    <input class="input" name="comment" placeholder="Write a comment...">
+                                                </p>
+                                            </div>
+                                            <div class="has-text-white field is-grouped">
+                                                <div class="control">
+                                                  <button class="button is-primary is-light" type="submit">Comment</button>
+                                                </div>
+                                                <div class="control">
+                                                  <button class="button is-danger is-light" type="button" onclick="document.getElementById('<%= post._id %>-comments').className = 'modal'">Cancel</button>
+                                                </div>
+                                              </div>
+                                        </form>
+                                    <% } else { %>
+                                        <div class="has-text-centered">
+                                            <p class="title is-4"><a href="/login">Login</a> to comment!</p>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </footer>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="document.getElementById('<%= post._id %>-comments').className = 'modal'"></button>
+                  </div>
+            <div class="card" id="<%= post._id %>">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-64x64">
+                                <% if (post.author.avatar) { %>
+                                    <img src="<%= post.author.avatar %>" alt="<%= post.author.username %>'s avatar" class="is-rounded">
+                                <% } else { %>
+                                    <img src="https://static.thenounproject.com/png/2734299-200.png" alt="User Avatar" class="is-rounded">
+                                <% } %>
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-3"><a href="/u/<%= post.author.username %>"><%= post.author.username %><% if (post.author.verified) { %>
+                                <i class="fas fa-check-circle fa-xs" style="color: rgb(50, 192, 192);"></i>
+                            <% } %></a> <span class="subtitle is-small"><%= new Date(post.date).getDay() %>/<%= new Date(post.date).getMonth() %>/<%= new Date(post.date).getFullYear() %>&nbsp;-&nbsp;<%= new Date(post.date).getHours() % 12 %>:<%= new Date(post.date).getMinutes() < 10 ? '0'+new Date(post.date).getMinutes(): new Date(post.date).getMinutes() %>&nbsp;<%= new Date(post.date).getHours() >= 12 ? "PM" : "AM" %></span></p>
+                            <p class="subtitle is-4"><%= post.content %></p>
+                        </div>
+                    </div>
+                    <% if (post.image) { %>
+                    <div class="card-image">
+                        <figure>
+                            <img src="<%= post.image %>" height="300" width="300" alt="<%= post.title %>">
+                        </figure>
+                        <% } %>
+                </div>
+                <div class="card-footer">
+                    <% if (loggedIn) { %>
+                        <% if (!user.likedPosts.includes(post._id)) { %> 
+                            <a href="#<%= post._id %>" onclick="window.location.href='/like?postID=<%= post._id %>'" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="far fa-heart"></i>
+                                </span>
+                                <span class="has-text-danger"><%= post.likes %></span>
+                            </a>
+                        <% } else { %>
+                            <a href="#<%= post._id %>" onclick="window.location.href='/unlike?postID=<%= post._id %>'" class="card-footer-item">
+                                <span class="icon">
+                                    <i class="fas fa-heart" style="color: rgb(204, 35, 35);"></i>
+                                </span>
+                                <span class="has-text-danger"><%= post.likes %></span>
+                            </a>
+                    <% } %>
+                    <% } else { %>
+                        <a href="/login" class="card-footer-item">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                            <span class="has-text-danger"><%= post.likes %></span>
+                        </a>
+                    <% } %>
+                    <a href="#<%= post._id %>" onclick="document.getElementById('<%= post._id %>-comments').classList.add('is-active')" class="card-footer-item">
+                        <span class="icon">
+                            <i class="fas fa-comment"></i>
+                        </span>
+                        <span class="has-text-danger"><%= post.comments.length %></span>
+                    </a>
+                    <a href="#<%= post._id %>" onclick="navigator.clipboard.writeText('https:/\/devpage.tech#<%= post._id %>'); alert('Copied URL to clipboard!'); window.location.href='/share?postID=<%= post._id %>'" class="card-footer-item">
+                        <span class="icon">
+                            <i class="fas fa-share"></i>
+                        </span>
+                        <span class="has-text-danger"><%= post.shares %></span>
+                    </a>
+                </div>
+            </div>
+            <br>
+            <% }) %>
+        </div>
+</body>
+</html>
