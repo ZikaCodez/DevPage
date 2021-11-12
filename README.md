@@ -1,4 +1,4 @@
-# DevPage an open-sourced place for developers 🖥️
+# DevPage an open-source place for developers 🖥️
 
 DevPage is a website for all developers to ask questions, create their mini portfolio, and advertise their projects!
 
