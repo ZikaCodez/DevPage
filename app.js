@@ -59,7 +59,7 @@ router.get('/signup', async function(req, res) {
     const user = await profiles.findOne({email: req.query.email});
     const user2 = await profiles.findOne({username: req.query.username});
     const validator = require("email-validator");
-    const isTrue = validator.validate(user)
+    const isTrue = validator.validate(req.query.email)
     if (isTrue == false) {
         let error = "Email doesn't exist!"
         res.redirect(`/error?e=${error}&b=/create`);
