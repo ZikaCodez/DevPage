@@ -64,7 +64,10 @@ router.get('/signup', async function(req, res) {
     if (!validate(req.query.email)) {
         res.redirect('/error?e=Email doesn\'t exist!&b=/create');
     }
-    
+    if (!req.query.email || !req.query.password || !req.query.username) {
+        alert("Please fill out the missing field!");
+        return false;
+    }
     if (user || user2) {
         res.redirect('/error?e=Email or username already in use!&b=/create');
     } else {
