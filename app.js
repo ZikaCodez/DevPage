@@ -61,7 +61,7 @@ router.get('/signup', async function(req, res) {
     const user = await profiles.findOne({email: req.query.email});
     const user2 = await profiles.findOne({username: req.query.username});
 
-    if (!validate(user)) {
+    if (!validate(req.query.email)) {
         res.redirect('/error?e=Email doesn\'t exist!&b=/create');
     }
     
@@ -417,6 +417,10 @@ router.get("/share", async function(req, res) {
     }
     res.redirect('back');
 });
+
+router.get("*", function(req, res) {
+    res.render('404');
+})
 
 app.use('/', router);
 app.listen(3000);
