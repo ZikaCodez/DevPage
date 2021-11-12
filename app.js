@@ -60,6 +60,12 @@ router.get('/signup', async function(req, res) {
     const user2 = await profiles.findOne({username: req.query.username});
     const validator = require("email-validator");
     const isTrue = validator.validate(user)
+    const { passwordStrength } = require('check-password-strength')
+    const isStrong = passwordStrength(req.query.password)
+    if (isStrong != "Strong") {
+        let error = "Password is too weak!"
+        res.redirect(`/error?e=${error}&b=/create`);
+    }
     if (isTrue == false) {
         let error = "Email doesn't exist!"
         res.redirect(`/error?e=${error}&b=/create`);
