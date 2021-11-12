@@ -396,6 +396,10 @@ router.get("/comment", async function(req, res) {
         res.redirect('/login');
         return;
     }
+    if (!comment) {
+        alert("Comment is missing!");
+        return false;
+    }
     const user = await profiles.findOne({token: session.token});
     const post = await posts.findOne({_id: postID});
     if (user) {
