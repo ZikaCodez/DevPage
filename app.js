@@ -204,6 +204,12 @@ router.get("/publish", async function(req, res) {
     }
     const token = session.token;
     const user = await profiles.findOne({token: token});
+    const isImageURL = require('valid-image-url');
+    const isValidImage = await isImageURL(req.query.imageURL)
+    if (isValidImage == false) {
+        let error = "Image URL is invalid!"
+        res.redirect(`/error?e=${error}&b=/)
+    }
     if (user) {
         const postID = Math.floor(Math.random() * (99000 - 10000) + 10000);
         const post = {
