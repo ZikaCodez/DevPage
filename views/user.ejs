@@ -107,6 +107,13 @@
                                 </span>
                             </a>
                             <% } %>
+                            <% if (user.socials.website) { %>
+                                <a href="<%= user.socials.website %>" target="_blank" class="card-footer-item">
+                                    <span class="icon">
+                                        <i class="fas fa-globe"></i>
+                                    </span>
+                                </a>
+                            <% } %>
                         </footer>
                       </div>
                 </div>

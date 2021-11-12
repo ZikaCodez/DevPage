@@ -100,12 +100,12 @@ router.get('/signup', async function(req, res) {
         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         const { country_name } = await getIpData(ip);
 
-        const msg = new webhook.MessageBuilder();
-            .setName(user.email);
-            .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png");
-            .setColor("#23b013");
-            .setTitle(`${user.username} has signed up`);
-            .addField("Location", `>>> **Country :** ${country_name}\n**IP ** \`${ip}\``);
+        const msg = new webhook.MessageBuilder()
+            .setName(user.email)
+            .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png")
+            .setColor("#23b013")
+            .setTitle(`${user.username} has signed up`)
+            .addField("Location", `>>> **Country :** ${country_name}\n**IP ** \`${ip}\``)
             .addField("Details", `>>> **Session ID :** \`${req.sessionID}\`\n**Email :** ${user.email}\n**Browser :** ${req.headers['user-agent']}`);
         Hook.send(msg);
     }
@@ -144,12 +144,12 @@ router.get('/signin', async function(req, res) {
             const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
             const { country_name } = await getIpData(ip);
 
-            const msg = new webhook.MessageBuilder();
-                .setName(req.query.email);
-                .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png");
-                .setColor("#aabbcc");
-                .setTitle(`${user.username} has signed in`);
-                .addField("Location", `>>> **Country :** ${country_name}\n**IP ** \`${ip}\``);
+            const msg = new webhook.MessageBuilder()
+                .setName(req.query.email)
+                .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png")
+                .setColor("#aabbcc")
+                .setTitle(`${user.username} has signed in`)
+                .addField("Location", `>>> **Country :** ${country_name}\n**IP ** \`${ip}\``)
                 .addField("Details", `>>> **Session ID :** \`${req.sessionID}\`\n**Email :** ${user.email}\n**Browser :** ${req.headers['user-agent']}`);
             Hook.send(msg);
         } else {
@@ -185,7 +185,7 @@ router.get("/update", async function(req, res) {
     const token = session.token;
     const user = await profiles.findOne({token});
     if (user) {
-        await profiles.updateOne({token}, {$set: {password: req.query.password, username: req.query.username, email: req.query.email, bio: req.query.bio, avatar: req.query.avatar, banner: req.query.banner, about: req.query.about, socials: {github: req.query.github, twitter: req.query.twitter, instagram: req.query.instagram, linkedin: req.query.linkedin}}});
+        await profiles.updateOne({token}, {$set: {password: req.query.password, username: req.query.username, email: req.query.email, bio: req.query.bio, avatar: req.query.avatar, banner: req.query.banner, about: req.query.about, socials: {github: req.query.github, twitter: req.query.twitter, instagram: req.query.instagram, linkedin: req.query.linkedin, website: req.query.website}}});
         res.redirect('/me');
     }
     else {
@@ -238,12 +238,12 @@ router.get("/logout", async function(req, res) {
         const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         const { country_name } = await getIpData(ip);
 
-        const msg = new webhook.MessageBuilder();
-            .setName(user.email);
-            .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png");
-            .setColor("#aabbcc");
-            .setTitle(`${user.username} has signed out`);
-            .addField("Location", `>>> **Country :** ${country}\n**IP ** \`${ip}\``);
+        const msg = new webhook.MessageBuilder()
+            .setName(user.email)
+            .setAvatar(user.avatar || "https://static.thenounproject.com/png/2734299-200.png")
+            .setColor("#aabbcc")
+            .setTitle(`${user.username} has signed out`)
+            .addField("Location", `>>> **Country :** ${country_name}\n**IP ** \`${ip}\``)
             .addField("Details", `>>> **Session ID :** \`${req.sessionID}\`\n**Email :** ${user.email}\n**Browser :** ${req.headers['user-agent']}`);
         Hook.send(msg);
 
