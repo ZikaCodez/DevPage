@@ -208,7 +208,8 @@ router.get("/publish", async function(req, res) {
     const isValidImage = await isImageURL(req.query.imageURL)
     if (isValidImage == false) {
         let error = "Image URL is invalid!"
-        res.redirect(`/error?e=${error}&b=/)
+        res.redirect(`/error?e=${error}&b=/`)
+        return
     }
     if (user) {
         const postID = Math.floor(Math.random() * (99000 - 10000) + 10000);
