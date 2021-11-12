@@ -87,7 +87,8 @@ router.get('/signup', async function(req, res) {
             followers: [],
             following: [],
             notifications: [],
-            likedPosts: []
+            likedPosts: [],
+            contributor: false
         }
         await profiles.insertOne(details);
         await sessions.insertOne({_id: req.sessionID, token: token});
