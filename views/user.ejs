@@ -116,7 +116,13 @@
                 <% if (user.about) { %>
                     <h1 class="title is-2">About Me</h1>
                     <br>
-                    <p class="subtitle is-5"><%= user.about %></p>
+                    <p class="subtitle is-5" id="aboutUser"><%= user.about %></p>
+                    <script>
+                        let aboutUser = document.getElementById("aboutUser");
+                        let converter = new showdown.Converter();
+                        aboutUser.innerHTML = converter.makeHtml(aboutUser.innerHTML);
+                    </script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
                     <% } else { %>
                     <p class="subtitle is-5">This user has not set an about yet!</p>
                     <% } %>
