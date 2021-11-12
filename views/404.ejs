@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <title>DevPage Admin</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+	<title>404 Page not found</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-    <nav class="navbar is-active is-link is-spaced">
-        <div class="navbar-start">
-            <a href="/" class="navbar-item">Home</a>
-        </div>
-    </nav>
-    <br>
-    <div class="container">
-        <h1 class="title is-1">Uh oh! You seem lost.</h1>
-        <p class="subtitle is-2">Here are some pages you may go to:</p>
-        <div class="columns">
-            <div class="column">
-                <a href="/" class="button is-link is-fullwidth">Home</a>
-            </div>
-            <div class="column">
-                <a href="/me" class="button is-link is-fullwidth">Your Profile</a>
-            </div>
-    </div>
+<body class="has-text-centered has-background-white-bis">
+	<main class="py-4">
+		<h1 class="title is-1 is-family-monospace">404</h1>
+		<h2 class="subtitle is-4 is-family-monospace">Page not found</h2>
+
+		<p class="content block">
+			The server <strong>couldn't find the page</strong> you're looking for or <strong>it doesn't exist</strong>.
+		</p>
+		<p class="content block">
+			If you think this is an error please <a href="/contact">contact support</a>.
+		</p>
+		<div class="block">
+			<a href="/" class="button is-black is-outlined">Take me back home</a>
+			<a href="/contact" class="button is-danger is-outlined">This is an error</a>
+		</div>
+  </main>
 </body>
 </html>
