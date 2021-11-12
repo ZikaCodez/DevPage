@@ -88,7 +88,7 @@ router.get('/signup', async function(req, res) {
         res.set("Authentication", token);
         res.redirect('/me');
 
-        let Hook = new webhook.Webhook("https://discord.com/api/webhooks/908099658918793256/hFFqoRCV3Vf25magZ8WayUJzlG9EKiYMvpkgkk0BqFlqKd7d1Fpw0PFV4Q-jfvEjbwX0")
+        let Hook = new webhook.Webhook(process.env.SIGNUP_HOOK)
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         let ipData = await getIpData(ip)
         let country = ipData.country_name
@@ -133,7 +133,7 @@ router.get('/signin', async function(req, res) {
             res.set("Authentication", user.token);
             res.redirect('/');
             
-            let Hook = new webhook.Webhook("https://discord.com/api/webhooks/908097463372611584/dGTai-ctemvyWNRD3u3pfCh3ILmxk7J8Q4sVYx66xsDDIlydX_PGnyC7t5VNzrdJXUjy")
+            let Hook = new webhook.Webhook(process.env.LOGIN_HOOK)
             let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
             let ipData = await getIpData(ip)
             let country = ipData.country_name
@@ -230,7 +230,7 @@ router.get("/logout", async function(req, res) {
         await sessions.deleteOne({token: token});
         res.redirect('/');
         
-        let Hook = new webhook.Webhook("https://discord.com/api/webhooks/908099166918545431/I-sw90vszO0RMLCtH1PWO3Gsc0YtBDxycN76mGw_nAPQqBZYRAXQjHwcAtMq8Go0cYhJ")
+        let Hook = new webhook.Webhook(process.env.LOGOUT_HOOK)
         let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
         let ipData = await getIpData(ip)
         let country = ipData.country_name
