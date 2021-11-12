@@ -64,6 +64,10 @@ router.get('/signup', async function(req, res) {
     if (!validate(req.query.email)) {
         res.redirect('/error?e=Email doesn\'t exist!&b=/create');
     }
+
+    if (user2.length > 20) {
+        res.redirect('/error?e=Username must be less than 20 characters!&b=/create');
+    }
     
     if (user || user2) {
         res.redirect('/error?e=Email or username already in use!&b=/create');
@@ -182,12 +186,27 @@ router.get("/update", async function(req, res) {
         res.redirect('/login');
         return;
     }
+
+    if (!validate(req.query.email)) {
+        res.redirect('/error?e=Email doesn\'t exist!&b=/update');
+    }
+
     const token = session.token;
     const user = await profiles.findOne({token});
+    const user2 = await profiles.findOne({username: req.query.username});
     if (user) {
         await profiles.updateOne({token}, {$set: {password: req.query.password, username: req.query.username, email: req.query.email, bio: req.query.bio, avatar: req.query.avatar, banner: req.query.banner, about: req.query.about, socials: {github: req.query.github, twitter: req.query.twitter, instagram: req.query.instagram, linkedin: req.query.linkedin, website: req.query.website}}});
         res.redirect('/me');
     }
+ 
+    if (!validate(req.query.email)) {
+        res.redirect('/error?e=Email doesn\'t exist!&b=/update');
+    }
+
+    if (user2.length > 20) {
+        res.redirect('/error?e=Username must be less than 20 characters!&b=/create');
+    }
+
     else {
         res.redirect('/login');
     }
