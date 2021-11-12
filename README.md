@@ -1,7 +1,7 @@
-# DevPage an open-sourced portfolio maker. 🖥️
+# DevPage an open-sourced place for developers. 🖥️
 DevPage is a website for all developers to ask questions, create their mini portfolio, and advertise their projects!
 
-# Known Issues / Bugs 
+# Known Issues / Bugs 🐛
 
 - Comments count disappears when a post has over 0 comments.
 - Comment may not load.
