@@ -50,11 +50,14 @@
                         <% if (user.verified) { %>
                             <i class="fas fa-check-circle" style="color: rgb(50, 192, 192);"></i>
                         <% } %>
-                        <% if (user._id === 3917634) { %>
-                            <br>
-                            <br>
-                            <span class="tag is-warning is-light is-large"><i class="fas fa-code"></i>&nbsp;DevPage Developer</span>
-                        <% } %>
+                        <div class="is-grouped">
+                            <% if (user._id === 3917634) { %>
+                                <span class="tag is-warning is-light is-large"><i class="fas fa-code"></i>&nbsp;DevPage Founder</span>
+                            <% } %>
+                            <% if (user.contributor) { %>
+                                <span class="tag is-success is-light is-large"><i class="fas fa-code-branch"></i>&nbsp;Contributed to DevPage</span>
+                            <% } %>
+                        </div>
                     </p>
                   <% if (user.bio) { %>
                     <p class="title is-6"><%= user.bio %></p>
