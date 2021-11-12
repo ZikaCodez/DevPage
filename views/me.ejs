@@ -50,15 +50,11 @@
                         <% if (user.verified) { %>
                             <i class="fas fa-check-circle" style="color: rgb(50, 192, 192);"></i>
                         <% } %>
-                        <div class="is-grouped">
-                            <% if (user._id === 3917634) { %>
-                                <span class="tag is-warning is-light is-large"><i class="fas fa-code"></i>&nbsp;DevPage Founder</span>
-                            <% } %>
-                            <% if (user.contributor) { %>
-                                <span class="tag is-success is-light is-large"><i class="fas fa-code-branch"></i>&nbsp;Contributed to DevPage</span>
-                            <% } %>
-                        </div>
-                        <br>
+                        <% if (user._id === 3917634) { %>
+                            <br>
+                            <br>
+                            <span class="tag is-warning is-light is-large"><i class="fas fa-code"></i>&nbsp;DevPage Developer</span>
+                        <% } %>
                     </p>
                   <% if (user.bio) { %>
                     <p class="title is-6"><%= user.bio %></p>
@@ -102,9 +98,16 @@
           
               <div class="content has-text-centered">
                 <% if (user.about) { %>
-                    <h1 class="title is-2">About Me</h1>
+                    <h class="title is-2">About Me</h>
                     <br>
-                    <p class="subtitle is-5"><%= user.about %></p>
+                    <div id="about">
+                        <script>
+                            var ab = "<%= user.about %>";
+                            let converter = new showdown.Converter();
+                            let about = document.getElementById('about');
+                            about.innerHTML = converter.makeHtml(ab);
+                        </script>
+                    </div>
                     <% } else { %>
                     <p class="subtitle is-5">This user has not set an about yet!</p>
                     <% } %>
@@ -204,4 +207,6 @@
             <% } %>
     </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js">
+</script>
 </html>
