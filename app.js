@@ -63,6 +63,7 @@ router.get('/signup', async function(req, res) {
     if (isTrue == false) {
         let error = "Email doesn't exist!"
         res.redirect(`/error?e=${error}&b=/create`);
+        return false;
     }
     if (user || user2) {
         let error = "Email or username already in use!"
@@ -208,8 +209,7 @@ router.get("/publish", async function(req, res) {
     const isValidImage = await isImageURL(req.query.imageURL)
     if (isValidImage == false) {
         let error = "Image URL is invalid!"
-        res.redirect(`/error?e=${error}&b=/`)
-        return
+        res.redirect(`/error?e=${error}&b=/)
     }
     if (user) {
         const postID = Math.floor(Math.random() * (99000 - 10000) + 10000);
