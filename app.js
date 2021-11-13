@@ -133,6 +133,11 @@ router.get('/login', function(req, res) {
 
 router.get('/signin', async function(req, res) {
     const user = await profiles.findOne({email: req.query.email});
+    if (!req.query.email || !req.query.password) {
+        alert("Fill out the empty field!");
+        return false;
+    }
+
     if (user) {
         if (user.password == req.query.password) {
             await sessions.deleteOne({token: user.token});
